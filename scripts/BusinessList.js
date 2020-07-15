@@ -1,11 +1,10 @@
 import { useBusinesses } from './BusinessProvider.js';
 import { Business } from './Business.js';
 
+const businesses = useBusinesses();
 
 export const BusinessList = () => {
   const domNode = document.querySelector('.businessList--all');
-
-  const businesses = useBusinesses();
 
   let businessesHTML = "";
 
@@ -22,8 +21,6 @@ export const BusinessList = () => {
 export const BusinessListNewYork = () => {
   const domNode = document.querySelector('.businessList--newYork');
 
-  const businesses = useBusinesses();
-
   const newYorkBusinessesHTML = businesses
     .filter(business => business.addressStateCode === 'NY')
     .map(Business)
@@ -33,4 +30,18 @@ export const BusinessListNewYork = () => {
     <h1>New York Businesses</h1>
     ${newYorkBusinessesHTML}
   `;
-}
+};
+
+export const BusinessListManufacturing = () => {
+  const domNode = document.querySelector('.businessList--manufacturing');
+
+  const manufacturingBusinessesHTML = businesses
+    .filter(business => business.companyIndustry === 'Manufacturing')
+    .map(Business)
+    .join('\n');
+
+  domNode.innerHTML += `
+    <h1>Manufacturing Businesses</h1>
+    ${manufacturingBusinessesHTML}
+  `;
+};
