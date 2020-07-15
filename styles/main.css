@@ -1,0 +1,42 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.container {
+  padding: 1rem;
+}
+
+.business-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.business::after {
+  content: '';
+  display: block;
+  height: 1px;
+  width: 100%;
+  background-color: #ccc;
+  margin: 1rem 0;
+}
+
+.business:last-child::after {
+  display: none;
+}
+
+.business__name {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.business__street,
+.business__location {
+  font-size: 1.2rem;
+}
