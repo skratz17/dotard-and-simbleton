@@ -13,7 +13,7 @@ export const BusinessList = () => {
   });
 
   domNode.innerHTML += `
-    <h1>Active Businesses</h1>
+    <h2 class="list__heading">Active Businesses</h2>
     ${businessesHTML}
   `;
 };
@@ -27,7 +27,7 @@ export const BusinessListNewYork = () => {
     .join('\n');
 
   domNode.innerHTML += `
-    <h1>New York Businesses</h1>
+    <h2 class="list__heading">New York Businesses</h2>
     ${newYorkBusinessesHTML}
   `;
 };
@@ -41,7 +41,7 @@ export const BusinessListManufacturing = () => {
     .join('\n');
 
   domNode.innerHTML += `
-    <h1>Manufacturing Businesses</h1>
+    <h2 class="list__heading">Manufacturing Businesses</h2>
     ${manufacturingBusinessesHTML}
   `;
 };
