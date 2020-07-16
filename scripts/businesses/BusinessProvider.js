@@ -112,3 +112,18 @@ const businesses = [
 ];
 
 export const useBusinesses = () => JSON.parse(JSON.stringify(businesses));
+
+/**
+ * Given a property, return an array of all businesses whose values at that property match the given value (case-insensitive, String.includes() matching)
+ * @param {String} property The name of the property to search on
+ * @param {String} value The value of the property to search on
+ */
+export const useBusinessesMatchingPropertyValue = (property, value) => {
+  const matchingBusinesses = businesses.filter(business =>
+    business[property]
+      .toLowerCase()
+      .includes(value.toLowerCase())
+  );
+
+  return JSON.parse(JSON.stringify(matchingBusinesses));
+};
