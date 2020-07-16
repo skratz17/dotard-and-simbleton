@@ -71,3 +71,11 @@ body {
 .list-item__content {
   font-size: 1.2rem;
 }
+
+.businessSearch {
+  width: 400px;
+  display: block;
+  margin: 0 auto;
+  padding: 0.5rem;
+  font-size: 1.2rem;
+}
