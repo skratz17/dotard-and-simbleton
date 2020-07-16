@@ -3,7 +3,7 @@ import { Agent } from './Agent.js';
 
 // event listener for agent name search input element
 document
-  .querySelector('.agentSearch')
+  .querySelector('.agent-search')
   .addEventListener('keypress', event => {
     //charCode 13 === 'ENTER' key
     if(event.charCode === 13) {
