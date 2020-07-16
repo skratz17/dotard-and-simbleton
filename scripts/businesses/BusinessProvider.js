@@ -112,3 +112,14 @@ const businesses = [
 ];
 
 export const useBusinesses = () => JSON.parse(JSON.stringify(businesses));
+
+export const useBusinessesMatchingCompanyName = companyName => {
+  const matchingBusinesses = businesses.filter(business => 
+    business
+      .companyName
+      .toLowerCase()
+      .includes(companyName.toLowerCase())
+  );
+
+  return JSON.parse(JSON.stringify(matchingBusinesses));
+};

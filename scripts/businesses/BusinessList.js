@@ -1,8 +1,38 @@
-import { useBusinesses } from './BusinessProvider.js';
+import { useBusinesses, useBusinessesMatchingCompanyName } from './BusinessProvider.js';
 import { Business } from './Business.js';
 
 const businesses = useBusinesses();
 
+// event listener for company name search input element 
+document
+  .querySelector('.businessSearch')
+  .addEventListener('keypress', event => {
+    // charCode 13 === 'ENTER' key
+    if(event.charCode === 13) {
+      renderMatchingBusinesses(event.target.value);
+    }
+  });
+
+/**
+ * Render only those companies whose names match companyName parameter to article.businessList--found DOM node.
+ * @param {String} companyName The company name to find matching companies for.
+ */
+const renderMatchingBusinesses = companyName => {
+  const domNode = document.querySelector('.businessList--found');
+
+  const matchingBusinesses = useBusinessesMatchingCompanyName(companyName);
+
+  const matchingBusinessesHTML = matchingBusinesses.map(Business).join('\n');
+
+  domNode.innerHTML = `
+    <h2 class="list__heading">Matching Businesses</h2>
+    ${matchingBusinessesHTML}
+  `;
+};
+
+/**
+ * Render all businesses to article.businessList--all DOM node.
+ */
 export const BusinessList = () => {
   const domNode = document.querySelector('.businessList--all');
 
@@ -18,6 +48,9 @@ export const BusinessList = () => {
   `;
 };
 
+/**
+ * Render only businesses in New York to article.businessList--newYork DOM node.
+ */
 export const BusinessListNewYork = () => {
   const domNode = document.querySelector('.businessList--newYork');
 
@@ -32,6 +65,9 @@ export const BusinessListNewYork = () => {
   `;
 };
 
+/**
+ * Render only businesses in Manufacturing to article.businessList--manufacturing DOM node.
+ */
 export const BusinessListManufacturing = () => {
   const domNode = document.querySelector('.businessList--manufacturing');
 
