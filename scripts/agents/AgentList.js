@@ -1,6 +1,15 @@
 import { useAgents, useAgentsMatchingPropertyValue } from './AgentProvider.js';
 import { Agent } from './Agent.js';
 
+const renderToDom = (domNode, agents, listHeading) => {
+  const agentsHTML = agents.map(Agent).join('\n');
+
+  domNode.innerHTML = `
+    <h2 class="list__heading">${listHeading}</h2>
+    ${agentsHTML}
+  `; 
+};
+
 // event listener for agent name search input element
 document
   .querySelector('.agent-search')
@@ -21,12 +30,7 @@ const renderMatchingAgents = (name, property = 'fullName') => {
 
   const matchingAgents = useAgentsMatchingPropertyValue(property, name);
 
-  const matchingAgentsHTML = matchingAgents.map(Agent).join('\n');
-
-  domNode.innerHTML = `
-    <h2 class="list__heading">Matching Agents</h2>
-    ${matchingAgentsHTML}
-  `;
+  renderToDom(domNode, matchingAgents, 'Matching Agents');
 };
 
 /**
@@ -37,10 +41,5 @@ export const AgentList = () => {
 
   const agents = useAgents();
 
-  const agentsHTML = agents.map(Agent).join('\n');
-
-  domNode.innerHTML += `
-    <h2 class="list__heading">Purchasing Agents</h2>
-    ${agentsHTML}
-  `;
+  renderToDom(domNode, agents, 'All Purchasing Agents');
 };
