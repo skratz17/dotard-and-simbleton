@@ -111,6 +111,9 @@ const businesses = [
   }
 ];
 
+/**
+ * Return an array of all businesses.
+ */
 export const useBusinesses = () => JSON.parse(JSON.stringify(businesses));
 
 /**
