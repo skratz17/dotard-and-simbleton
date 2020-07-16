@@ -1,4 +1,4 @@
-import { useBusinesses, useBusinessesMatchingCompanyName } from './BusinessProvider.js';
+import { useBusinesses, useBusinessesMatchingPropertyValue } from './BusinessProvider.js';
 import { Business } from './Business.js';
 
 const businesses = useBusinesses();
@@ -20,7 +20,7 @@ document
 const renderMatchingBusinesses = companyName => {
   const domNode = document.querySelector('.businessList--found');
 
-  const matchingBusinesses = useBusinessesMatchingCompanyName(companyName);
+  const matchingBusinesses = useBusinessesMatchingPropertyValue('companyName', companyName);
 
   const matchingBusinessesHTML = matchingBusinesses.map(Business).join('\n');
 
@@ -54,10 +54,9 @@ export const BusinessList = () => {
 export const BusinessListNewYork = () => {
   const domNode = document.querySelector('.businessList--newYork');
 
-  const newYorkBusinessesHTML = businesses
-    .filter(business => business.addressStateCode === 'NY')
-    .map(Business)
-    .join('\n');
+  const newYorkBusinesses = useBusinessesMatchingPropertyValue('addressStateCode', 'NY');
+
+  const newYorkBusinessesHTML = newYorkBusinesses.map(Business).join('\n');
 
   domNode.innerHTML += `
     <h2 class="list__heading">New York Businesses</h2>
@@ -71,10 +70,9 @@ export const BusinessListNewYork = () => {
 export const BusinessListManufacturing = () => {
   const domNode = document.querySelector('.businessList--manufacturing');
 
-  const manufacturingBusinessesHTML = businesses
-    .filter(business => business.companyIndustry === 'Manufacturing')
-    .map(Business)
-    .join('\n');
+  const manufacturingBusinesses = useBusinessesMatchingPropertyValue('companyIndustry', 'Manufacturing');
+
+  const manufacturingBusinessesHTML = manufacturingBusinesses.map(Business).join('\n');
 
   domNode.innerHTML += `
     <h2 class="list__heading">Manufacturing Businesses</h2>
