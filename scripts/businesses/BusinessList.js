@@ -1,7 +1,15 @@
 import { useBusinesses, useBusinessesMatchingPropertyValue } from './BusinessProvider.js';
 import { Business } from './Business.js';
 
-const businesses = useBusinesses();
+
+const renderListToDom = (domNode, businesses, listHeading) => {
+  const businessesHTML = businesses.map(Business).join('\n');
+
+  domNode.innerHTML = `
+    <h2 class="list__heading">${listHeading}</h2>
+    ${businessesHTML}
+  `;
+};
 
 // event listener for company name search input element 
 document
@@ -22,12 +30,7 @@ const renderMatchingBusinesses = companyName => {
 
   const matchingBusinesses = useBusinessesMatchingPropertyValue('companyName', companyName);
 
-  const matchingBusinessesHTML = matchingBusinesses.map(Business).join('\n');
-
-  domNode.innerHTML = `
-    <h2 class="list__heading">Matching Businesses</h2>
-    ${matchingBusinessesHTML}
-  `;
+  renderListToDom(domNode, matchingBusinesses, 'Matching Businesses');
 };
 
 /**
@@ -36,16 +39,9 @@ const renderMatchingBusinesses = companyName => {
 export const BusinessList = () => {
   const domNode = document.querySelector('.businesses--all');
 
-  let businessesHTML = "";
+  const businesses = useBusinesses();
 
-  businesses.forEach(business => {
-    businessesHTML += Business(business);
-  });
-
-  domNode.innerHTML += `
-    <h2 class="list__heading">Active Businesses</h2>
-    ${businessesHTML}
-  `;
+  renderListToDom(domNode, businesses, 'All Businesses');
 };
 
 /**
@@ -56,12 +52,7 @@ export const BusinessListNewYork = () => {
 
   const newYorkBusinesses = useBusinessesMatchingPropertyValue('addressStateCode', 'NY');
 
-  const newYorkBusinessesHTML = newYorkBusinesses.map(Business).join('\n');
-
-  domNode.innerHTML += `
-    <h2 class="list__heading">New York Businesses</h2>
-    ${newYorkBusinessesHTML}
-  `;
+  renderListToDom(domNode, newYorkBusinesses, 'New York Businesses');
 };
 
 /**
@@ -72,10 +63,5 @@ export const BusinessListManufacturing = () => {
 
   const manufacturingBusinesses = useBusinessesMatchingPropertyValue('companyIndustry', 'Manufacturing');
 
-  const manufacturingBusinessesHTML = manufacturingBusinesses.map(Business).join('\n');
-
-  domNode.innerHTML += `
-    <h2 class="list__heading">Manufacturing Businesses</h2>
-    ${manufacturingBusinessesHTML}
-  `;
+  renderListToDom(domNode, manufacturingBusinesses, 'Manufacturing Businesses');
 };
