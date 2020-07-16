@@ -5,7 +5,7 @@ const businesses = useBusinesses();
 
 // event listener for company name search input element 
 document
-  .querySelector('.businessSearch')
+  .querySelector('.business-search')
   .addEventListener('keypress', event => {
     // charCode 13 === 'ENTER' key
     if(event.charCode === 13) {
@@ -14,11 +14,11 @@ document
   });
 
 /**
- * Render only those companies whose names match companyName parameter to article.businessList--found DOM node.
+ * Render only those companies whose names match companyName parameter to article.businesses--found DOM node.
  * @param {String} companyName The company name to find matching companies for.
  */
 const renderMatchingBusinesses = companyName => {
-  const domNode = document.querySelector('.businessList--found');
+  const domNode = document.querySelector('.businesses--found');
 
   const matchingBusinesses = useBusinessesMatchingPropertyValue('companyName', companyName);
 
@@ -31,10 +31,10 @@ const renderMatchingBusinesses = companyName => {
 };
 
 /**
- * Render all businesses to article.businessList--all DOM node.
+ * Render all businesses to article.businesses--all DOM node.
  */
 export const BusinessList = () => {
-  const domNode = document.querySelector('.businessList--all');
+  const domNode = document.querySelector('.businesses--all');
 
   let businessesHTML = "";
 
@@ -49,10 +49,10 @@ export const BusinessList = () => {
 };
 
 /**
- * Render only businesses in New York to article.businessList--newYork DOM node.
+ * Render only businesses in New York to article.businesses--newYork DOM node.
  */
 export const BusinessListNewYork = () => {
-  const domNode = document.querySelector('.businessList--newYork');
+  const domNode = document.querySelector('.businesses--newYork');
 
   const newYorkBusinesses = useBusinessesMatchingPropertyValue('addressStateCode', 'NY');
 
@@ -65,10 +65,10 @@ export const BusinessListNewYork = () => {
 };
 
 /**
- * Render only businesses in Manufacturing to article.businessList--manufacturing DOM node.
+ * Render only businesses in Manufacturing to article.businesses--manufacturing DOM node.
  */
 export const BusinessListManufacturing = () => {
-  const domNode = document.querySelector('.businessList--manufacturing');
+  const domNode = document.querySelector('.businesses--manufacturing');
 
   const manufacturingBusinesses = useBusinessesMatchingPropertyValue('companyIndustry', 'Manufacturing');
 
