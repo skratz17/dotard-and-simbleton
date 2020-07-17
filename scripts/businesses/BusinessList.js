@@ -1,7 +1,22 @@
 import { useBusinesses, useBusinessesMatchingPropertyValue } from './BusinessProvider.js';
 import { Business } from './Business.js';
 
+// event listener for company name search input element 
+document
+  .querySelector('.business-search')
+  .addEventListener('keypress', event => {
+    // charCode 13 === 'ENTER' key
+    if(event.charCode === 13) {
+      renderBusinessesMatchingName(event.target.value);
+    }
+  });
 
+/**
+ * 
+ * @param {HTMLElement} domNode A reference to the DOM node that you want to add this list's HTML to.
+ * @param {Array} businesses An array of business objects.
+ * @param {String} listHeading The heading / title that you want for this list.
+ */
 const renderListToDom = (domNode, businesses, listHeading) => {
   const businessesHTML = businesses.map(Business).join('\n');
 
@@ -11,21 +26,11 @@ const renderListToDom = (domNode, businesses, listHeading) => {
   `;
 };
 
-// event listener for company name search input element 
-document
-  .querySelector('.business-search')
-  .addEventListener('keypress', event => {
-    // charCode 13 === 'ENTER' key
-    if(event.charCode === 13) {
-      renderMatchingBusinesses(event.target.value);
-    }
-  });
-
 /**
  * Render only those companies whose names match companyName parameter to article.businesses--found DOM node.
  * @param {String} companyName The company name to find matching companies for.
  */
-const renderMatchingBusinesses = companyName => {
+const renderBusinessesMatchingName = companyName => {
   const domNode = document.querySelector('.businesses--found');
 
   const matchingBusinesses = useBusinessesMatchingPropertyValue('companyName', companyName);
