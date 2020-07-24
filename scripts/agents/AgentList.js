@@ -1,4 +1,4 @@
-import { renderListToDom, getOrCreateListArticleNode } from '../list/list.js';
+import { renderListToDom } from '../list/list.js';
 import { useAgents, useAgentsMatchingPropertyValue } from './AgentProvider.js';
 import { Agent } from './Agent.js';
 
@@ -21,11 +21,9 @@ eventHub.addEventListener('searched', event => {
  * @param {any} value The value that agent objects should match at the given property to appear in list
  */
 export const AgentListWhere = (className, heading, property, value) => {
-  const domNode = getOrCreateListArticleNode(className);
-
   const agents = getAgentsList(property, value);
 
-  renderListToDom(domNode, agents, Agent, heading);
+  renderListToDom(className, agents, Agent, heading);
 };
 
 /**

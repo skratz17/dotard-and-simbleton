@@ -1,4 +1,4 @@
-import { renderListToDom, getOrCreateListArticleNode } from '../list/list.js';
+import { renderListToDom } from '../list/list.js';
 import { useBusinesses, useBusinessesMatchingPropertyValue } from './BusinessProvider.js';
 import { Business } from './Business.js';
 
@@ -22,11 +22,9 @@ eventHub.addEventListener('searched', event => {
  * @param {String} value The value that the property should search on
  */
 export const BusinessListWhere = (className, heading, property, value) => {
-  const domNode = getOrCreateListArticleNode(className);
-
   const businesses = getBusinessList(property, value);
 
-  renderListToDom(domNode, businesses, Business, heading);
+  renderListToDom(className, businesses, Business, heading);
 };
 
 /**

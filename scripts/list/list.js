@@ -1,13 +1,15 @@
 const container = document.querySelector('.container');
 
 /**
- * Render a list of data objects to domNode using renderer to convert objects to HTML.
- * @param {HTMLElement} domNode The DOM node to render the list to
+ * Render a list of data objects to the DOM node with given className using renderer to convert objects to HTML.
+ * @param {String} className The class name of the DOM element this list should render at - will be created and appended to container if not already present on DOM
  * @param {Array} collection The array of elements to render as list elements
  * @param {function} renderer The function to convert each element in the collection to HTML
  * @param {String} listHeading The heading of this list
  */
-export const renderListToDom = (domNode, collection, renderer, listHeading) => {
+export const renderListToDom = (className, collection, renderer, listHeading) => {
+  const domNode = getOrCreateListArticleNode(className);
+
   const listHTML = collection.map(renderer).join('');
 
   domNode.innerHTML = `
@@ -20,7 +22,7 @@ export const renderListToDom = (domNode, collection, renderer, listHeading) => {
  * Given a class name, either find and return the first DOM node that matches the class, or create a new DOM node with the given class name.
  * @param {String} className The class name to either find a DOM node matching or create a new DOM node containing.
  */
-export const getOrCreateListArticleNode = className => {
+const getOrCreateListArticleNode = className => {
   let domNode = document.querySelector(`.${className}`);
   if(!domNode) {
     domNode = createListArticleNode(className);
