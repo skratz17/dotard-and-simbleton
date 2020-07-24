@@ -1,3 +1,4 @@
+import { renderListToDom, createListArticleNode } from '../list/list.js';
 import { useBusinesses, useBusinessesMatchingPropertyValue } from './BusinessProvider.js';
 import { Business } from './Business.js';
 
@@ -9,21 +10,6 @@ eventHub.addEventListener('searched', event => {
 
   BusinessListWhere('businesses--found', 'Search Results', 'companyName', searchTerm);
 });
-
-/**
- * 
- * @param {HTMLElement} domNode A reference to the DOM node that you want to add this list's HTML to.
- * @param {Array} businesses An array of business objects.
- * @param {String} listHeading The heading / title that you want for this list.
- */
-const renderListToDom = (domNode, businesses, listHeading) => {
-  const businessesHTML = businesses.map(Business).join('\n');
-
-  domNode.innerHTML = `
-    <h2 class="list__heading">${listHeading}</h2>
-    ${businessesHTML}
-  `;
-};
 
 /**
  * Render a business list for all those businesses whose given property matches the given value.
@@ -42,18 +28,7 @@ export const BusinessListWhere = (className, heading, property, value) => {
   
   const businesses = getBusinessList(property, value);
 
-  renderListToDom(domNode, businesses, heading);
-};
-
-/**
- * Create and return an <article> DOM node with classes 'list' and className
- * @param {String} className The custom class name to give the element
- */
-const createListArticleNode = className => {
-  const domNode = document.createElement('ARTICLE');
-  domNode.classList.add('list');
-  domNode.classList.add(className);
-  return domNode;
+  renderListToDom(domNode, businesses, Business, heading);
 };
 
 /**
@@ -65,4 +40,4 @@ const getBusinessList = (property, value) => {
   if(!property || !value) return useBusinesses();
 
   return useBusinessesMatchingPropertyValue(property, value);
-}
+};
