@@ -10,7 +10,7 @@ const eventHub = document.querySelector('.container');
 eventHub.addEventListener('searched', event => {
   const { searchTerm } = event.detail;
 
-  BusinessListWhere('businesses--found', 'Search Results', 'companyName', searchTerm);
+  BusinessList('businesses--found', 'Search Results', 'companyName', searchTerm);
 });
 
 /**
@@ -21,7 +21,7 @@ eventHub.addEventListener('searched', event => {
  * @param {String} property The name of the property to render a list filtered by
  * @param {String} value The value that the property should search on
  */
-export const BusinessListWhere = (className, heading, property, value) => {
+export const BusinessList = (className, heading, property, value) => {
   const businesses = getBusinessList(property, value);
 
   renderListToDom(className, businesses, Business, heading);
