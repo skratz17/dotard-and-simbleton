@@ -2,11 +2,14 @@ import { useAgents, useAgentsMatchingPropertyValue } from './AgentProvider.js';
 import { Agent } from './Agent.js';
 
 const eventHub = document.querySelector('.container');
+const container = document.querySelector('.container');
 
 eventHub.addEventListener('searched', event => {
   const { searchTerm } = event.detail;
 
-  renderMatchingAgents(searchTerm);
+  // renderMatchingAgents(searchTerm);
+
+  AgentListWhere('agents--found', 'Search Results', 'fullName', searchTerm);
 });
 
 /**
@@ -24,26 +27,36 @@ const renderListToDom = (domNode, agents, listHeading) => {
   `; 
 };
 
-/**
- * Render only those purchasing agents whose names match name parameter to article.agents--found DOM node.
- * @param {String} name The name of the agent to search on
- * @param {String} property The property to match the search query on. Default value is fullName. Can pass in 'firstName' instead to search by firstName only, for example.
- */
-const renderMatchingAgents = (name, property = 'fullName') => {
-  const domNode = document.querySelector('.agents--found');
+export const AgentListWhere = (className, heading, property, value) => {
+  let domNode = document.querySelector(`.${className}`);
+  if(!domNode) {
+    domNode = createListArticleNode(className);
+    container.appendChild(domNode);
+  }
 
-  const matchingAgents = useAgentsMatchingPropertyValue(property, name);
+  const agents = getAgentsList(property, value);
 
-  renderListToDom(domNode, matchingAgents, 'Matching Agents');
+  renderListToDom(domNode, agents, heading);
 };
 
 /**
- * Render all agents to the article.agents--all DOM node.
+ * Create and return an <article> DOM node with classes 'list' and className
+ * @param {String} className The custom class name to give the element
  */
-export const AgentList = () => {
-  const domNode = document.querySelector('.agents--all');
+const createListArticleNode = className => {
+  const domNode = document.createElement('ARTICLE');
+  domNode.classList.add('list');
+  domNode.classList.add(className);
+  return domNode;
+};
 
-  const agents = useAgents();
+/**
+ * Given a property and value, return the proper list of agents. If either property or value is undefined or empty, returns all agents. Else, returns only those agents whose value at the given property matches the value argument.
+ * @param {String} property
+ * @param {String} value 
+ */
+const getAgentsList = (property, value) => {
+  if(!property || !value) return useAgents();
 
-  renderListToDom(domNode, agents, 'All Purchasing Agents');
+  return useAgentsMatchingPropertyValue(property, value);
 };
