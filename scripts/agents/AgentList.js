@@ -10,7 +10,7 @@ const eventHub = document.querySelector('.container');
 eventHub.addEventListener('searched', event => {
   const { searchTerm } = event.detail;
 
-  AgentListWhere('agents--found', 'Search Results', 'fullName', searchTerm);
+  AgentList('agents--found', 'Search Results', 'fullName', searchTerm);
 });
 
 /**
@@ -20,7 +20,7 @@ eventHub.addEventListener('searched', event => {
  * @param {String} property The name of the property this list will be filtered on
  * @param {any} value The value that agent objects should match at the given property to appear in list
  */
-export const AgentListWhere = (className, heading, property, value) => {
+export const AgentList = (className, heading, property, value) => {
   const agents = getAgentsList(property, value);
 
   renderListToDom(className, agents, Agent, heading);
