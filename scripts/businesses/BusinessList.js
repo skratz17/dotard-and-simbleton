@@ -1,10 +1,12 @@
-import { renderListToDom, createListArticleNode } from '../list/list.js';
+import { renderListToDom, getOrCreateListArticleNode } from '../list/list.js';
 import { useBusinesses, useBusinessesMatchingPropertyValue } from './BusinessProvider.js';
 import { Business } from './Business.js';
 
 const eventHub = document.querySelector('.container');
-const container = document.querySelector('.container');
 
+/**
+ * Listen for the SearchBar searched event, render list filtered on search criteria when it happens
+ */
 eventHub.addEventListener('searched', event => {
   const { searchTerm } = event.detail;
 
@@ -20,12 +22,8 @@ eventHub.addEventListener('searched', event => {
  * @param {String} value The value that the property should search on
  */
 export const BusinessListWhere = (className, heading, property, value) => {
-  let domNode = document.querySelector(`.${className}`);
-  if(!domNode) {
-    domNode = createListArticleNode(className);
-    container.appendChild(domNode);
-  }
-  
+  const domNode = getOrCreateListArticleNode(className);
+
   const businesses = getBusinessList(property, value);
 
   renderListToDom(domNode, businesses, Business, heading);

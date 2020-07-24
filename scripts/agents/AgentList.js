@@ -1,22 +1,27 @@
-import { renderListToDom, createListArticleNode } from '../list/list.js';
+import { renderListToDom, getOrCreateListArticleNode } from '../list/list.js';
 import { useAgents, useAgentsMatchingPropertyValue } from './AgentProvider.js';
 import { Agent } from './Agent.js';
 
 const eventHub = document.querySelector('.container');
-const container = document.querySelector('.container');
 
+/**
+ * Listen for SearchBar searched event, render filtered agent list when it happens
+ */
 eventHub.addEventListener('searched', event => {
   const { searchTerm } = event.detail;
 
   AgentListWhere('agents--found', 'Search Results', 'fullName', searchTerm);
 });
 
+/**
+ * 
+ * @param {String} className The custom className this list should have
+ * @param {String} heading The title heading this list should have above it
+ * @param {String} property The name of the property this list will be filtered on
+ * @param {any} value The value that agent objects should match at the given property to appear in list
+ */
 export const AgentListWhere = (className, heading, property, value) => {
-  let domNode = document.querySelector(`.${className}`);
-  if(!domNode) {
-    domNode = createListArticleNode(className);
-    container.appendChild(domNode);
-  }
+  const domNode = getOrCreateListArticleNode(className);
 
   const agents = getAgentsList(property, value);
 
