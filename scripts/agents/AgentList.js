@@ -1,15 +1,13 @@
 import { useAgents, useAgentsMatchingPropertyValue } from './AgentProvider.js';
 import { Agent } from './Agent.js';
 
-// event listener for agent name search input element
-document
-  .querySelector('.agent-search')
-  .addEventListener('keypress', event => {
-    //charCode 13 === 'ENTER' key
-    if(event.charCode === 13) {
-      renderMatchingAgents(event.target.value);
-    }
-  });
+const eventHub = document.querySelector('.container');
+
+eventHub.addEventListener('searched', event => {
+  const { searchTerm } = event.detail;
+
+  renderMatchingAgents(searchTerm);
+});
 
 /**
  * 

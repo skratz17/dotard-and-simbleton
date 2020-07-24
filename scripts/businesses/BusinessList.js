@@ -1,15 +1,13 @@
 import { useBusinesses, useBusinessesMatchingPropertyValue } from './BusinessProvider.js';
 import { Business } from './Business.js';
 
-// event listener for company name search input element 
-document
-  .querySelector('.business-search')
-  .addEventListener('keypress', event => {
-    // charCode 13 === 'ENTER' key
-    if(event.charCode === 13) {
-      renderBusinessesMatchingName(event.target.value);
-    }
-  });
+const eventHub = document.querySelector('.container');
+
+eventHub.addEventListener('searched', event => {
+  const { searchTerm } = event.detail;
+
+  renderBusinessesMatchingName(searchTerm);
+});
 
 /**
  * 
