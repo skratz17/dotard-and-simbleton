@@ -1,70 +1,39 @@
+import { renderListToDom } from '../list/list.js';
 import { useBusinesses, useBusinessesMatchingPropertyValue } from './BusinessProvider.js';
 import { Business } from './Business.js';
 
 const eventHub = document.querySelector('.container');
 
+/**
+ * Listen for the SearchBar searched event, render list filtered on search criteria when it happens
+ */
 eventHub.addEventListener('searched', event => {
   const { searchTerm } = event.detail;
 
-  renderBusinessesMatchingName(searchTerm);
+  BusinessListWhere('businesses--found', 'Search Results', 'companyName', searchTerm);
 });
 
 /**
- * 
- * @param {HTMLElement} domNode A reference to the DOM node that you want to add this list's HTML to.
- * @param {Array} businesses An array of business objects.
- * @param {String} listHeading The heading / title that you want for this list.
+ * Render a business list for all those businesses whose given property matches the given value.
+ * If a DOM node with class of className is not found on DOM, it will be appended to .container. Otherwise, the innerHTML of the existing DOM node with given className will be updated with new list.
+ * @param {String} className Class name that the list should use.
+ * @param {String} heading The heading that should display above the list
+ * @param {String} property The name of the property to render a list filtered by
+ * @param {String} value The value that the property should search on
  */
-const renderListToDom = (domNode, businesses, listHeading) => {
-  const businessesHTML = businesses.map(Business).join('\n');
+export const BusinessListWhere = (className, heading, property, value) => {
+  const businesses = getBusinessList(property, value);
 
-  domNode.innerHTML = `
-    <h2 class="list__heading">${listHeading}</h2>
-    ${businessesHTML}
-  `;
+  renderListToDom(className, businesses, Business, heading);
 };
 
 /**
- * Render only those companies whose names match companyName parameter to article.businesses--found DOM node.
- * @param {String} companyName The company name to find matching companies for.
+ * Given a property and value, return the proper list of businesses. If either property or value is undefined or empty, returns all businesses. Else, returns only those businesses whose value at the given property matches the value argument.
+ * @param {String} property
+ * @param {String} value 
  */
-const renderBusinessesMatchingName = companyName => {
-  const domNode = document.querySelector('.businesses--found');
+const getBusinessList = (property, value) => {
+  if(!property || !value) return useBusinesses();
 
-  const matchingBusinesses = useBusinessesMatchingPropertyValue('companyName', companyName);
-
-  renderListToDom(domNode, matchingBusinesses, 'Matching Businesses');
-};
-
-/**
- * Render all businesses to article.businesses--all DOM node.
- */
-export const BusinessList = () => {
-  const domNode = document.querySelector('.businesses--all');
-
-  const businesses = useBusinesses();
-
-  renderListToDom(domNode, businesses, 'All Businesses');
-};
-
-/**
- * Render only businesses in New York to article.businesses--newYork DOM node.
- */
-export const BusinessListNewYork = () => {
-  const domNode = document.querySelector('.businesses--newYork');
-
-  const newYorkBusinesses = useBusinessesMatchingPropertyValue('addressStateCode', 'NY');
-
-  renderListToDom(domNode, newYorkBusinesses, 'New York Businesses');
-};
-
-/**
- * Render only businesses in Manufacturing to article.businesses--manufacturing DOM node.
- */
-export const BusinessListManufacturing = () => {
-  const domNode = document.querySelector('.businesses--manufacturing');
-
-  const manufacturingBusinesses = useBusinessesMatchingPropertyValue('companyIndustry', 'Manufacturing');
-
-  renderListToDom(domNode, manufacturingBusinesses, 'Manufacturing Businesses');
+  return useBusinessesMatchingPropertyValue(property, value);
 };

@@ -1,5 +1,5 @@
 import { SearchBar } from './searchBar/SearchBar.js';
-import { AgentList } from './agents/AgentList.js';
+import { AgentListWhere } from './agents/AgentList.js';
 
 SearchBar('agent-search', 'Enter agent name...');
-AgentList();
+AgentListWhere('agents--all', 'All Purchasing Agents');

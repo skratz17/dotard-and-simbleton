@@ -1,7 +1,7 @@
 import { SearchBar } from './searchBar/SearchBar.js';
-import { BusinessList, BusinessListNewYork, BusinessListManufacturing } from './businesses/BusinessList.js';
+import { BusinessListWhere } from './businesses/BusinessList.js';
 
 SearchBar('business-search', 'Enter business name...');
-BusinessList();
-BusinessListNewYork();
-BusinessListManufacturing();
+BusinessListWhere('businesses--all', 'All Businesses');
+BusinessListWhere('businesses--newYork', 'New York Businesses', 'addressStateCode', 'NY');
+BusinessListWhere('businesses--manufacturing', 'Manufacturing Businesses', 'companyIndustry', 'manufacturing');
